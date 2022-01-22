@@ -27,7 +27,7 @@
      height: $height;
 }
 
-@mixin button() {
+@mixin button {
      width: 100%;
      border: none;
      border-radius: 5px;
@@ -42,7 +42,7 @@
      }
 }
 
-@mixin input() {
+@mixin input {
      margin-bottom: 15px;
      font-size: 16px;
      color: $brand-color-4;
@@ -53,5 +53,66 @@
 
      &:focus {
           border-color: $brand-color-2;
+     }
+}
+
+@mixin authPage {
+     &__container {
+          @include flex(flex, center, center);
+          height: 100vh;
+          background-color: $brand-color-1;
+     }
+
+     &__container-inner {
+          position: relative;
+          top: -50px;
+          width: 100%;
+          text-align: center;
+          margin: 0 20px;
+
+          @include from(425px) {
+               width: 360px;
+          }
+     }
+
+     &__title {
+          font-weight: 600;
+          font-size: 30px;
+     }
+
+     &__form {
+          display: flex;
+          flex-direction: column;
+
+          .input {
+               display: flex;
+
+               input {
+                    @include input;
+                    @include size(100%, 40px);
+               }
+          }
+     }
+
+     &__content {
+          &__bottom {
+               margin: 20px 0;
+               display: flex;
+               justify-content: space-between;
+          }
+     }
+
+     &__link {
+          font-size: 14px;
+          color: $brand-color-2;
+
+          &:hover {
+               color: $brand-color-3;
+          }
+     }
+
+     &__submit {
+          @include button;
+          text-transform: uppercase;
      }
 }

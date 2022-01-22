@@ -25,6 +25,19 @@ const routes = [
           },
      },
      {
+          path: '/register',
+          name: 'Register',
+          component: () => import('../views/Register.vue'),
+          meta: {
+               authenticated: false,
+          },
+          beforeEnter: (to, from) => {
+               if (sessionStorage.getItem('auth')) {
+                    router.push(from.path);
+               }
+          },
+     },
+     {
           path: '/:pathMatch(.*)*',
           component: () => import('../views/NotFound'),
           meta: {
