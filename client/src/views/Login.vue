@@ -94,18 +94,8 @@ export default {
                display: flex;
 
                input {
+                    @include input;
                     @include size(100%, 40px);
-                    margin-bottom: 10px;
-                    font-size: 16px;
-                    color: #495057;
-                    border: 1px solid #00000029;
-                    background-color: transparent;
-                    border-radius: 5px;
-                    padding: 2px 10px;
-
-                    &:focus {
-                         border-color: $brand-color-2;
-                    }
                }
           }
      }
@@ -128,18 +118,8 @@ export default {
      }
 
      &__submit {
-          width: 100%;
-          border: none;
-          border-radius: 5px;
-          color: $white;
+          @include button;
           text-transform: uppercase;
-          padding: 1rem;
-          background-color: $brand-color-2;
-
-          &:hover {
-               background-color: $brand-color-3;
-               cursor: pointer;
-          }
      }
 }
 </style>
