@@ -1,0 +1,28 @@
+@mixin until($width) {
+     @media (max-width: $width) {
+          @content;
+     }
+}
+
+@mixin from($width) {
+     @media (min-width: $width) {
+          @content;
+     }
+}
+
+@mixin between($from, $to) {
+     @media (min-width: $from) and (max-width: $to) {
+          @content;
+     }
+}
+
+@mixin flex($display, $justify, $align) {
+     display: $display;
+     justify-content: $justify;
+     align-items: $align;
+}
+
+@mixin size($width, $height: $width) {
+     width: $width;
+     height: $height;
+}
