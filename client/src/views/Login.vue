@@ -1,6 +1,6 @@
 <template>
      <div class="container">
-          <form @submit.prevent='userSignIn'>
+          <form @submit.prevent="userSignIn">
                <label for="username">
                     Username
                     <input type="text" id="username" placeholder="username" v-model="data.username" />
@@ -11,8 +11,8 @@
                     Username
                     <input type="password" id="password" placeholder="password" v-model="data.password" />
                </label>
-               <br>
-               <br>
+               <br />
+               <br />
                <button>Submit</button>
           </form>
      </div>
