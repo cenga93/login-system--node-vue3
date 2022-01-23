@@ -31,10 +31,6 @@
      font-display: swap;
 }
 
-body {
-     margin: 0;
-     padding: 0;
-}
 * {
      font-family: 'Inter', sans-serif;
      font-weight: normal;
@@ -45,14 +41,19 @@ body {
      }
 }
 
-a {
-     text-decoration: none;
-     color: #495057;
-}
+body {
+     margin: 0;
+     padding: 0;
 
-input:-webkit-autofill {
-     -webkit-box-shadow: 0 0 0 100px #fff inset;
-     -moz-box-shadow: 0 0 0 100px #fff inset;
-     box-shadow: 0 0 0 100px #fff inset;
+     a {
+          text-decoration: none;
+          color: #495057;
+     }
+
+     input:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 100px #fff inset;
+          -moz-box-shadow: 0 0 0 100px #fff inset;
+          box-shadow: 0 0 0 100px #fff inset;
+     }
 }
 </style>
