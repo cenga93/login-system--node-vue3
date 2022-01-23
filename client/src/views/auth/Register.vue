@@ -11,22 +11,27 @@
                               <div class="mx-auto max-w-lg">
                                    <div class="block sm:flex">
                                         <input-wrapper label="Firstname" class="sm:mr-2">
-                                             <input-field type="text" v-model="data.firstname" @blur="v$.firstname.$touch()" />
+                                             <input-field
+                                                  class="w-full"
+                                                  type="text"
+                                                  v-model="data.firstname"
+                                                  @blur="v$.firstname.$touch()"
+                                             />
                                              <input-errors v-for="error of v$.firstname.$errors" :error="error" :key="error.$uid" />
                                         </input-wrapper>
 
                                         <input-wrapper label="Lastname">
-                                             <input-field type="text" v-model="data.lastname" @blur="v$.lastname.$touch()" />
+                                             <input-field class="w-full" type="text" v-model="data.lastname" @blur="v$.lastname.$touch()" />
                                              <input-errors v-for="error of v$.lastname.$errors" :error="error" :key="error.$uid" />
                                         </input-wrapper>
                                    </div>
                                    <input-wrapper label="Email">
-                                        <input-field type="email" v-model="data.email" @blur="v$.email.$touch()" />
+                                        <input-field class="w-full" type="email" v-model="data.email" @blur="v$.email.$touch()" />
                                         <input-errors v-for="error of v$.email.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
 
                                    <input-wrapper label="Password">
-                                        <input-field type="password" v-model="data.password" @blur="v$.password.$touch()" />
+                                        <input-field class="w-full" type="password" v-model="data.password" @blur="v$.password.$touch()" />
                                         <input-errors v-for="error of v$.password.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
 

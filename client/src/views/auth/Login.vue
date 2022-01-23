@@ -10,12 +10,12 @@
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
                               <div class="mx-auto max-w-lg">
                                    <input-wrapper label="Email">
-                                        <input-field type="email" v-model="data.email" @blur="v$.email.$touch()" />
+                                        <input-field class="w-full" type="email" v-model="data.email" @blur="v$.email.$touch()" />
                                         <input-errors v-for="error of v$.email.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
 
                                    <input-wrapper label="Password">
-                                        <input-field type="password" v-model="data.password" @blur="v$.password.$touch()" />
+                                        <input-field class="w-full" type="password" v-model="data.password" @blur="v$.password.$touch()" />
                                         <input-errors v-for="error of v$.password.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
 

@@ -13,31 +13,31 @@
                                    <input-errors v-for="error of v$.num2.$errors" :error="error" :key="error.$uid" />
                                    <input-errors v-for="error of v$.num3.$errors" :error="error" :key="error.$uid" />
                                    <input-errors v-for="error of v$.num4.$errors" :error="error" :key="error.$uid" />
-                                   <input-wrapper class="flex justify-center sm:mx-12">
+                                   <input-wrapper class="flex justify-center">
                                         <input-field
                                              type="text"
-                                             class="mr-5 text-center"
+                                             class="w-12 text-center mr-2"
                                              v-model="data.num1"
                                              maxLength="1"
                                              @blur="v$.num1.$touch()"
                                         />
                                         <input-field
                                              type="text"
-                                             class="mr-5 text-center"
+                                             class="w-12 text-center mr-2"
                                              v-model="data.num2"
                                              maxLength="1"
                                              @blur="v$.num2.$touch()"
                                         />
                                         <input-field
                                              type="text"
-                                             class="mr-5 text-center"
+                                             class="w-12 text-center mr-2"
                                              v-model="data.num3"
                                              maxLength="1"
                                              @blur="v$.num3.$touch()"
                                         />
                                         <input-field
                                              type="text"
-                                             class="text-center"
+                                             class="w-12 text-center mr-2"
                                              v-model="data.num4"
                                              maxLength="1"
                                              @blur="v$.num4.$touch()"
