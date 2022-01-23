@@ -9,7 +9,6 @@
                          </div>
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
                               <div class="mx-auto max-w-lg">
-                                   <!-- Email -->
                                    <input-wrapper label="Email">
                                         <input-field type="email" v-model="data.email" />
                                    </input-wrapper>

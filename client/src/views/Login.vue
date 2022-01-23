@@ -9,16 +9,12 @@
                          </div>
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
                               <div class="mx-auto max-w-lg">
-                                   <!-- Email -->
                                    <input-wrapper label="Email">
                                         <input-field type="email" v-model="data.email" />
                                    </input-wrapper>
-
-                                   <!-- Password -->
                                    <input-wrapper label="Password">
                                         <input-field type="password" v-model="data.password" />
                                    </input-wrapper>
-
                                    <button
                                         class="mt-3 text-lg font-semibold bg-indigo-700 w-full text-white rounded-lg px-6 py-2 block shadow-xl hover:text-white hover:bg-indigo-900"
                                    >

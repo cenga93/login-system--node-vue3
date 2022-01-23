@@ -7,7 +7,6 @@
                               <h2 class="text-center text-3xl font-extrabold text-gray-900">Check your email</h2>
                               <p>Verify your email address</p>
                          </div>
-
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
                               <div class="mx-auto max-w-lg">
                                    <input-wrapper class="flex justify-center sm:mx-12">
@@ -16,7 +15,6 @@
                                         <input-field type="email" class="mr-5 text-center" v-model="data.email" maxLength="1" />
                                         <input-field type="email" class="text-center" v-model="data.email" maxLength="1" />
                                    </input-wrapper>
-
                                    <button
                                         class="mt-3 text-lg font-semibold bg-indigo-700 w-full text-white rounded-lg px-6 py-2 block shadow-xl hover:text-white hover:bg-indigo-900"
                                    >
