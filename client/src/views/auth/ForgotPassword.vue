@@ -10,7 +10,8 @@
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
                               <div class="mx-auto max-w-lg">
                                    <input-wrapper label="Email">
-                                        <input-field type="email" v-model="data.email" />
+                                        <input-field type="email" v-model="data.email" @blur="v$.email.$touch()" />
+                                        <input-errors v-for="error of v$.email.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
 
                                    <button
@@ -40,25 +41,38 @@
 import { ref } from 'vue';
 import InputWrapper from '@/components/default/forms/InputWrapper';
 import InputField from '@/components/default/forms/InputField';
+import useVuelidate from '@vuelidate/core';
+import forgotPasswordValidation from '@/validations/forgotPasswordValidation';
+import InputErrors from '@/components/default/forms/InputErrors';
 
 export default {
      name: 'ForgotPassword',
      components: {
           InputWrapper,
           InputField,
+          InputErrors,
      },
      setup() {
           const data = ref({
                email: '',
           });
 
-          const handleSubmit = () => {
-               console.log('submited');
+          const v$ = useVuelidate(forgotPasswordValidation, data);
+
+          const handleSubmit = async () => {
+               const result = await v$.value.$validate();
+
+               if (!result) {
+                    console.log('ima errore');
+               } else {
+                    console.log('nema error-e..moze da se submit...');
+               }
           };
 
           return {
                handleSubmit,
                data,
+               v$,
           };
      },
 };
