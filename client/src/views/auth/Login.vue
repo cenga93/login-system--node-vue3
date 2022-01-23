@@ -10,11 +10,15 @@
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
                               <div class="mx-auto max-w-lg">
                                    <input-wrapper label="Email">
-                                        <input-field type="email" v-model="data.email" />
+                                        <input-field type="email" v-model="data.email" @blur="v$.email.$touch()" />
+                                        <input-errors v-for="error of v$.email.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
+
                                    <input-wrapper label="Password">
-                                        <input-field type="password" v-model="data.password" />
+                                        <input-field type="password" v-model="data.password" @blur="v$.password.$touch()" />
+                                        <input-errors v-for="error of v$.password.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
+
                                    <button
                                         class="mt-3 text-lg font-semibold bg-indigo-700 w-full text-white rounded-lg px-6 py-2 block shadow-xl hover:text-white hover:bg-indigo-900"
                                    >
@@ -41,6 +45,8 @@
                                    </div>
                               </div>
                          </form>
+
+                         <Loader v-if="data.loading" />
                     </div>
                </div>
           </div>
@@ -50,27 +56,42 @@
 import { ref } from 'vue';
 import InputWrapper from '@/components/default/forms/InputWrapper';
 import InputField from '@/components/default/forms/InputField';
+import InputErrors from '@/components/default/forms/InputErrors';
+import useVuelidate from '@vuelidate/core';
+import registerValidation from '@/validations/registerValidation';
+import Loader from '@/components/default/layout/Loader';
 
 export default {
      name: 'Login',
      components: {
           InputWrapper,
           InputField,
+          InputErrors,
+          Loader,
      },
      setup() {
           const data = ref({
                email: '',
                password: '',
+               loading: false,
           });
 
-          const handleSubmit = () => {
-               console.log(data.value.email);
-               console.log(data.value.password);
+          const handleSubmit = async () => {
+               const result = await v$.value.$validate();
+
+               if (!result) {
+                    console.log('ima errore');
+               } else {
+                    console.log('nema error-e..moze da se submit...');
+               }
           };
 
+          const v$ = useVuelidate(registerValidation, data);
+
           return {
-               data,
                handleSubmit,
+               data,
+               v$,
           };
      },
 };
