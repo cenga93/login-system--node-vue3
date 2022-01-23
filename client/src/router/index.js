@@ -38,6 +38,32 @@ const routes = [
           },
      },
      {
+          path: '/forgot-password',
+          name: 'ForgotPassword',
+          component: () => import('../views/ForgotPassword'),
+          meta: {
+               authenticated: false,
+          },
+          beforeEnter: (to, from) => {
+               if (sessionStorage.getItem('auth')) {
+                    router.push(from.path);
+               }
+          },
+     },
+     {
+          path: '/verify',
+          name: 'Verify',
+          component: () => import('../views/Verify'),
+          meta: {
+               authenticated: false,
+          },
+          beforeEnter: (to, from) => {
+               if (sessionStorage.getItem('auth')) {
+                    router.push(from.path);
+               }
+          },
+     },
+     {
           path: '/:pathMatch(.*)*',
           component: () => import('../views/NotFound'),
           meta: {

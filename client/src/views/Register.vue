@@ -1,59 +1,68 @@
 <template>
-     <section class="register">
-          <div class="register__container">
-               <div class="register__container-inner">
-                    <h2 class="register__title">Sign Up</h2>
-                    <div class="register__content">
-                         <form class="register__form" @submit.prevent="handleSubmit">
-                              <div class="input input--firstname">
-                                   <input
-                                        type="text"
-                                        name="firstname"
-                                        v-model="data.firstname"
-                                        autocomplete="firstname"
-                                        placeholder="Firstname"
-                                   />
-                              </div>
-                              <div class="input input--lastname">
-                                   <input
-                                        type="text"
-                                        name="lastname"
-                                        v-model="data.lastname"
-                                        autocomplete="lastname"
-                                        placeholder="Lastname"
-                                   />
-                              </div>
+     <div class="container max-w-full mx-auto py-24 px-4">
+          <div class="max-w-sm mx-auto">
+               <div class="flex flex-wrap">
+                    <div class="w-full">
+                         <div class="text-center font-semibold text-black">
+                              <h2 class="text-center text-3xl font-extrabold text-gray-900">Register</h2>
+                              <p>Create your account</p>
+                         </div>
+                         <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
+                              <div class="mx-auto max-w-lg">
+                                   <!-- Firstname -->
+                                   <input-wrapper label="Firstname">
+                                        <input-field type="text" v-model="data.firstname" />
+                                   </input-wrapper>
 
-                              <div class="input input--email">
-                                   <input type="email" name="email" v-model="data.email" autocomplete="email" placeholder="Email" />
-                              </div>
+                                   <!-- Lastname -->
+                                   <input-wrapper label="Lastname">
+                                        <input-field type="text" v-model="data.lastname" />
+                                   </input-wrapper>
 
-                              <div class="input input--password">
-                                   <input
-                                        type="password"
-                                        name="password"
-                                        v-model="data.password"
-                                        autocomplete="password"
-                                        placeholder="Password"
-                                   />
-                              </div>
+                                   <!-- Email -->
+                                   <input-wrapper label="Email">
+                                        <input-field type="email" v-model="data.email" />
+                                   </input-wrapper>
 
-                              <div class="register__content__bottom">
-                                   <router-link to="/login" class="register__link">Back to login</router-link>
+                                   <!-- Password -->
+                                   <input-wrapper label="Password">
+                                        <input-field type="password" v-model="data.password" />
+                                   </input-wrapper>
+
+                                   <button
+                                        class="mt-3 text-lg font-semibold bg-indigo-700 w-full text-white rounded-lg px-6 py-2 block shadow-xl hover:text-white hover:bg-indigo-900"
+                                   >
+                                        Sign Up
+                                   </button>
+                                   <div class="flex justify-end">
+                                        <label class="block text-gray-500 font-bold my-4">
+                                             <router-link
+                                                  to="/login"
+                                                  class="cursor-pointer tracking-tighter text-black border-b-2 border-gray-200 hover:border-gray-600"
+                                             >
+                                                  <span>Back to login</span>
+                                             </router-link>
+                                        </label>
+                                   </div>
                               </div>
-                              <button class="register__submit">Sign in</button>
                          </form>
                     </div>
                </div>
           </div>
-     </section>
+     </div>
 </template>
 
 <script>
 import { ref } from 'vue';
+import InputWrapper from '@/components/default/forms/InputWrapper';
+import InputField from '@/components/default/forms/InputField';
 
 export default {
      name: 'Register',
+     components: {
+          InputWrapper,
+          InputField,
+     },
      setup() {
           const data = ref({
                firstname: '',
@@ -62,15 +71,14 @@ export default {
                password: '',
           });
 
+          const handleSubmit = () => {
+               console.log('submited');
+          };
+
           return {
+               handleSubmit,
                data,
           };
      },
 };
 </script>
-
-<style scoped lang="scss">
-.register {
-     @include authPage;
-}
-</style>
