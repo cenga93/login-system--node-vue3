@@ -14,7 +14,7 @@ const routes = [
      {
           path: '/login',
           name: 'Login',
-          component: () => import('../views/Login.vue'),
+          component: () => import('../views/auth/Login.vue'),
           meta: {
                authenticated: false,
           },
@@ -27,7 +27,7 @@ const routes = [
      {
           path: '/register',
           name: 'Register',
-          component: () => import('../views/Register.vue'),
+          component: () => import('../views/auth/Register.vue'),
           meta: {
                authenticated: false,
           },
@@ -40,7 +40,7 @@ const routes = [
      {
           path: '/forgot-password',
           name: 'ForgotPassword',
-          component: () => import('../views/ForgotPassword'),
+          component: () => import('../views/auth/ForgotPassword'),
           meta: {
                authenticated: false,
           },
@@ -53,7 +53,7 @@ const routes = [
      {
           path: '/verify',
           name: 'Verify',
-          component: () => import('../views/Verify'),
+          component: () => import('../views/auth/Verify'),
           meta: {
                authenticated: false,
           },
