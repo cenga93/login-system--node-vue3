@@ -1,11 +1,10 @@
 import { Router } from 'express';
-import { testiranje } from '../controllers/user.controller';
+import { create } from '../controllers/user.controller';
 
 export default (): Router => {
      const router: Router = Router();
 
-     router.get('/', testiranje);
-
+     router.post('/', create);
 
      return router;
 };

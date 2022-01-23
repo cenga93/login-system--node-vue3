@@ -23,6 +23,7 @@
                                    <input-wrapper label="Password">
                                         <input-field type="password" v-model="data.password" />
                                    </input-wrapper>
+
                                    <button
                                         class="mt-3 text-lg font-semibold bg-indigo-700 w-full text-white rounded-lg px-6 py-2 block shadow-xl hover:text-white hover:bg-indigo-900"
                                    >
@@ -38,6 +39,8 @@
                                              </router-link>
                                         </label>
                                    </div>
+
+                                   <Loader v-if="loader" />
                               </div>
                          </form>
                     </div>
@@ -50,14 +53,18 @@
 import { ref } from 'vue';
 import InputWrapper from '@/components/default/forms/InputWrapper';
 import InputField from '@/components/default/forms/InputField';
+import Loader from '@/components/default/layout/Loader';
 
 export default {
      name: 'Register',
      components: {
           InputWrapper,
           InputField,
+          Loader,
      },
      setup() {
+          const loader = ref(false);
+
           const data = ref({
                firstname: '',
                lastname: '',
@@ -66,12 +73,13 @@ export default {
           });
 
           const handleSubmit = () => {
-               console.log('submited');
+               console.log(data.value);
           };
 
           return {
                handleSubmit,
                data,
+               loader,
           };
      },
 };

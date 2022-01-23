@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
-import httpStatus from 'http-status';
 import { catchAsync } from 'catch-async-express';
+import httpStatus from 'http-status';
+import userRepository from '../repositories/user';
+import { IUser } from '../interfaces';
 
-export const testiranje = catchAsync(async (req: Request, res: Response): Promise<void> => {
-     res.status(httpStatus.OK).json({
-          message: 'cenga',
-     });
+export const create = catchAsync(async (req: Request, res: Response): Promise<void> => {
+     const newUser: IUser = await userRepository.createUser(req);
+
+     res.status(httpStatus.OK).json(newUser);
 });

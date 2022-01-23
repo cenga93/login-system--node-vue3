@@ -1,14 +1,12 @@
 export interface IUser {
-     _id?: any;
-     firstName: string | undefined;
-     lastName: string | undefined;
-     email: string | undefined;
-     password: string | undefined;
-     createdAt?: Date;
-     updatedAt?: Date;
-     code?: string;
+     firstName: string;
+     lastName: string;
+     email: string;
+     password: string;
+     code: string;
      verified: boolean;
-     role: string;
-     _doc?: Object;
-     position?: string;
+}
+
+export interface IFilter {
+     email?: string;
 }

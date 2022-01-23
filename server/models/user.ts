@@ -1,18 +1,18 @@
 import { Document, Model, model, Schema } from 'mongoose';
+import bcrypt from 'bcrypt';
 import { IUser } from '../interfaces';
 
 export interface IUserModel extends IUser, Document {
      comparePassword(userPassword: string): Promise<boolean>;
-     getPublicFields(): Promise<IUser>;
 }
 
 const UserSchema = new Schema(
      {
-          firstName: {
+          firstname: {
                type: String,
                required: true,
           },
-          lastName: {
+          lastname: {
                type: String,
                required: true,
           },
@@ -37,6 +37,12 @@ const UserSchema = new Schema(
           timestamps: true,
      }
 );
+
+UserSchema.methods.comparePassword = async function (userPassword: string): Promise<boolean> {
+     const user: IUser = this as IUserModel;
+
+     return await bcrypt.compare(userPassword, <string>user.password).catch(() => false);
+};
 
 const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);
 

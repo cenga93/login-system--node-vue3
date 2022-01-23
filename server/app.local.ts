@@ -1,9 +1,10 @@
 import { connect } from 'mongoose';
+import { errorConverter, errorHandler } from './middleware/error';
 import app from './app';
 
 /** Starting the server */
 app.listen(process.env.PORT, async (): Promise<void> => {
-     // const URL: string | undefined = process.env.DATABASE_URL;
+     const URL: string | undefined = process.env.DATABASE_URL;
 
      console.log(`
      --------------------------------------
@@ -11,17 +12,19 @@ app.listen(process.env.PORT, async (): Promise<void> => {
      --------------------------------------
      `);
 
-     // if (URL) {
-     //      await connect(URL)
-     //           .then(({ connections }) => {
-     //                console.log(`==> Connected to [${connections[0].name}] database`);
-     //           })
-     //           .catch((err) => {
-     //                console.log('Could not connect to the database. Exiting now...', err);
-     //           });
-     // }
+     if (URL) {
+          await connect(URL)
+               .then(({ connections }) => {
+                    console.log(`==> Connected to [${connections[0].name}] database`);
+               })
+               .catch((err) => {
+                    console.log('Could not connect to the database. Exiting now...', err);
+               });
+     }
 
      console.log('==> Server is up');
 
      /** Error middleware */
+     app.use(errorConverter);
+     app.use(errorHandler);
 });
