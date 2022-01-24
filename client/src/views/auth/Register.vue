@@ -16,25 +16,41 @@
                                                   type="text"
                                                   v-model="data.firstname"
                                                   @blur="v$.firstname.$touch()"
+                                                  placeholder="Firstname"
                                              />
                                              <input-errors v-for="error of v$.firstname.$errors" :error="error" :key="error.$uid" />
                                         </input-wrapper>
-
                                         <input-wrapper label="Lastname">
-                                             <input-field class="w-full" type="text" v-model="data.lastname" @blur="v$.lastname.$touch()" />
+                                             <input-field
+                                                  class="w-full"
+                                                  type="text"
+                                                  v-model="data.lastname"
+                                                  @blur="v$.lastname.$touch()"
+                                                  placeholder="Lastname"
+                                             />
                                              <input-errors v-for="error of v$.lastname.$errors" :error="error" :key="error.$uid" />
                                         </input-wrapper>
                                    </div>
                                    <input-wrapper label="Email">
-                                        <input-field class="w-full" type="email" v-model="data.email" @blur="v$.email.$touch()" />
+                                        <input-field
+                                             class="w-full"
+                                             type="email"
+                                             v-model="data.email"
+                                             @blur="v$.email.$touch()"
+                                             placeholder="Email address"
+                                        />
                                         <input-errors v-for="error of v$.email.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
-
                                    <input-wrapper label="Password">
-                                        <input-field class="w-full" type="password" v-model="data.password" @blur="v$.password.$touch()" />
+                                        <input-field
+                                             class="w-full"
+                                             type="password"
+                                             v-model="data.password"
+                                             @blur="v$.password.$touch()"
+                                             placeholder="Your password"
+                                        />
                                         <input-errors v-for="error of v$.password.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
-
                                    <button
                                         class="mt-3 text-lg font-semibold bg-indigo-700 w-full text-white rounded-lg px-6 py-2 block shadow-xl hover:text-white hover:bg-indigo-900"
                                    >

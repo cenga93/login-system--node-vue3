@@ -10,12 +10,24 @@
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
                               <div class="mx-auto max-w-lg">
                                    <input-wrapper label="Email">
-                                        <input-field class="w-full" type="email" v-model="data.email" @blur="v$.email.$touch()" />
+                                        <input-field
+                                             class="w-full"
+                                             type="email"
+                                             v-model="data.email"
+                                             @blur="v$.email.$touch()"
+                                             placeholder="Email address"
+                                        />
                                         <input-errors v-for="error of v$.email.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
 
                                    <input-wrapper label="Password">
-                                        <input-field class="w-full" type="password" v-model="data.password" @blur="v$.password.$touch()" />
+                                        <input-field
+                                             class="w-full"
+                                             type="password"
+                                             v-model="data.password"
+                                             @blur="v$.password.$touch()"
+                                             placeholder="Your password"
+                                        />
                                         <input-errors v-for="error of v$.password.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
 
@@ -58,7 +70,7 @@ import InputWrapper from '@/components/default/forms/InputWrapper';
 import InputField from '@/components/default/forms/InputField';
 import InputErrors from '@/components/default/forms/InputErrors';
 import useVuelidate from '@vuelidate/core';
-import registerValidation from '@/validations/registerValidation';
+import loginValidation from '@/validations/loginValidation';
 import Loader from '@/components/default/layout/Loader';
 
 export default {
@@ -86,7 +98,7 @@ export default {
                }
           };
 
-          const v$ = useVuelidate(registerValidation, data);
+          const v$ = useVuelidate(loginValidation, data);
 
           return {
                handleSubmit,
