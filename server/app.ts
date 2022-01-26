@@ -9,7 +9,6 @@ import router from './routes';
 import passport from 'passport';
 import path from 'path';
 
-
 const app: Express = express();
 
 /** Sanitizes user-supplied data to prevent MongoDB Operator Injection. */
