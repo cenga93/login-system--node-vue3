@@ -12,7 +12,7 @@
                     clip-rule="evenodd"
                ></path>
           </svg>
-          <div class="ml-3 text-sm font-medium text-red-700 dark:text-red-800">A simple info alert with an</div>
+          <div class="ml-3 text-sm font-medium text-red-700 dark:text-red-800">{{ message }}</div>
           <button
                @click="store.commit('hideAlert')"
                type="button"
@@ -34,13 +34,25 @@
 
 <script>
 import { useStore } from 'vuex';
+import { onMounted, onUnmounted, ref } from 'vue';
+
 export default {
      name: 'Alert',
      setup() {
           const store = useStore();
+          const message = ref('');
+
+          onMounted(() => {
+               message.value = store.state.alert.message;
+          });
+
+          onUnmounted(() => {
+               store.commit('hideAlert');
+          });
 
           return {
                store,
+               message,
           };
      },
 };
