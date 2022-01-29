@@ -8,6 +8,7 @@
                               <p>Create your account</p>
                          </div>
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
+                              <Alert v-if="store.state.alert.show" />
                               <div class="mx-auto max-w-lg">
                                    <div class="block sm:flex">
                                         <input-wrapper label="Firstname" class="sm:mr-2">
@@ -66,7 +67,7 @@
                                              </router-link>
                                         </label>
                                    </div>
-                                   <Loader v-if="data.loading" />
+                                   <Loader v-if="loading" />
                               </div>
                          </form>
                     </div>
@@ -83,6 +84,10 @@ import Loader from '@/components/default/layout/Loader';
 import useVuelidate from '@vuelidate/core';
 import registerValidation from '@/validations/registerValidation';
 import InputErrors from '@/components/default/forms/InputErrors';
+import { useStore } from 'vuex';
+import axios from 'axios';
+import Alert from '@/components/ui/Alert';
+import { useRouter } from 'vue-router';
 
 export default {
      name: 'Register',
@@ -91,31 +96,48 @@ export default {
           InputWrapper,
           InputField,
           Loader,
+          Alert,
      },
      setup() {
+          const store = useStore();
+          const loading = ref(false);
+          const router = useRouter();
+
           const data = ref({
                firstname: '',
                lastname: '',
                email: '',
                password: '',
-               loading: false,
           });
 
           const v$ = useVuelidate(registerValidation, data);
 
           const handleSubmit = async () => {
-               const result = await v$.value.$validate();
+               const formIsValid = await v$.value.$validate();
 
-               if (!result) {
-                    console.log('ima errore');
-               } else {
-                    console.log('nema error-e..moze da se submit...');
+               if (formIsValid) {
+                    loading.value = true;
+                    store.commit('hideAlert');
+
+                    try {
+                         const response = await axios.post('/api/user', data.value);
+
+                         if (response.status === 200) {
+                              await router.push({ name: 'Home' });
+                         }
+                    } catch (err) {
+                         store.commit('showAlert', err.response.data.message);
+                    }
+
+                    loading.value = false;
                }
           };
 
           return {
                handleSubmit,
+               loading,
                data,
+               store,
                v$,
           };
      },

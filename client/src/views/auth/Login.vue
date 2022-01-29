@@ -212,10 +212,8 @@
                               <h2 class="text-center text-3xl font-extrabold text-gray-900">Welcome back</h2>
                               <p>Sign in to your account</p>
                          </div>
-
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
                               <Alert v-if="store.state.alert.show" />
-
                               <div class="mx-auto max-w-lg">
                                    <input-wrapper label="Email">
                                         <input-field
@@ -296,19 +294,21 @@ export default {
           });
 
           const handleSubmit = async () => {
-               const isValid = await v$.value.$validate();
+               const formIsValid = await v$.value.$validate();
 
-               if (isValid) {
+               if (formIsValid) {
                     loading.value = true;
                     store.commit('hideAlert');
 
                     try {
                          const response = await axios.post('/api/login', data.value);
-                         console.log(response);
+
+                         axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access.token;
+
+                         localStorage.setItem('auth', JSON.stringify(response.data.access.token));
                     } catch (err) {
                          store.commit('showAlert', err.response.data.message);
                     }
-
                     loading.value = false;
                }
           };
