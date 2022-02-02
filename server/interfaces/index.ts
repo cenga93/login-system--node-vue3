@@ -1,7 +1,7 @@
 export interface IUser {
      _id?: any;
-     firstName: string;
-     lastName: string;
+     firstname: string;
+     lastname: string;
      email: string;
      password: string;
      code: string;
@@ -25,8 +25,8 @@ export interface IToken {
           token?: string;
           expires?: Date;
      };
-     refresh: {
-          token?: string;
-          expires?: Date;
-     };
+     // refresh: {
+     //      token?: string;
+     //      expires?: Date;
+     // };
 }

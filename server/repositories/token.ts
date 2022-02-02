@@ -55,13 +55,10 @@ const generateAuthTokens = async (user: IUser): Promise<IToken> => {
      await saveToken(refreshToken, _id, refreshTokenExpires, TokenTypes.REFRESH);
 
      return {
+          // refresh: {},
           access: {
                token: accessToken,
                expires: accessTokenExpires,
-          },
-          refresh: {
-               token: refreshToken,
-               expires: refreshTokenExpires,
           },
      };
 };

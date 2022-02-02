@@ -2,7 +2,8 @@ import { Request } from 'express';
 import httpStatus from 'http-status';
 import ApiError from '../utils/ApiError';
 import Default from '../default';
-import User from '../models/user';
+import User, { IUserModel } from '../models/user';
+import { sendWelcomeMail } from '../services/mailer';
 
 const createUser = async (req: Request): Promise<any> => {
      const { body } = req;
@@ -13,7 +14,14 @@ const createUser = async (req: Request): Promise<any> => {
 
      body.code = Math.round(Math.random() * (9999 - 1000) + 1000);
 
-     return await new User(body).save();
+     const user: IUserModel = await new User(body).save();
+
+     const url: URL = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+
+     /** Send welcome mail to new user email */
+     await sendWelcomeMail(user, url);
+
+     return user;
 };
 
 export default { createUser };

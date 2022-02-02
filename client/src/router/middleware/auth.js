@@ -1,13 +1,36 @@
+import store from '@/store';
 import router from '@/router';
 
-export default (to, from, next) => {
-     const { authenticated } = to.meta;
-
-     if (authenticated && localStorage.getItem('auth')) {
-          return next();
-     } else if (!authenticated) {
-          return next();
-     } else {
-          router.push('/login');
+export default async () => {
+     if (!store.getters.authenticated) {
+          await router.push('login').catch(() => {});
      }
+
+     // if (!store.getters.authenticated) {
+     //      return next({ name: 'Login' });
+     // } else {
+     //      return next();
+     // }
+     // if(store.getters.getUser)
+
+     // const token = localStorage.getItem('auth');
+     //
+     // console.log(token);
+
+     // if (token) {
+     //      const response = await axios.get('/api/auth/me');
+     //
+     //      if (response) {
+     //           return next();
+     //      } else {
+     //           localStorage.clear();
+     //           router.push('/login').catch(() => {});
+     //      }
+     // }
+     //
+     // if (authenticated) {
+     //      router.push('/login').catch(() => {});
+     // } else {
+     //      return next();
+     // }
 };

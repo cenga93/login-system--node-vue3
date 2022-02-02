@@ -213,7 +213,7 @@
                               <p>Sign in to your account</p>
                          </div>
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
-                              <Alert v-if="store.state.alert.show" />
+                              <Alert v-if="showAlert" />
                               <div class="mx-auto max-w-lg">
                                    <input-wrapper label="Email">
                                         <input-field
@@ -268,16 +268,14 @@
           </div>
      </div>
 </template>
-
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import InputWrapper from '@/components/default/forms/InputWrapper';
 import InputField from '@/components/default/forms/InputField';
 import InputErrors from '@/components/default/forms/InputErrors';
 import useVuelidate from '@vuelidate/core';
 import loginValidation from '@/validations/loginValidation';
 import Loader from '@/components/default/layout/Loader';
-import axios from 'axios';
 import { useStore } from 'vuex';
 import Alert from '@/components/ui/Alert';
 
@@ -286,6 +284,7 @@ export default {
      components: { Alert, InputWrapper, InputField, InputErrors, Loader },
      setup() {
           const store = useStore();
+          const showAlert = computed(() => store.state.alert.show);
           const loading = ref(false);
 
           const data = ref({
@@ -298,17 +297,10 @@ export default {
 
                if (formIsValid) {
                     loading.value = true;
-                    store.commit('hideAlert');
+                    await store.dispatch('hideAlert');
 
-                    try {
-                         const response = await axios.post('/api/login', data.value);
+                    await store.dispatch('login', data.value);
 
-                         axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access.token;
-
-                         localStorage.setItem('auth', JSON.stringify(response.data.access.token));
-                    } catch (err) {
-                         store.commit('showAlert', err.response.data.message);
-                    }
                     loading.value = false;
                }
           };
@@ -318,6 +310,7 @@ export default {
           return {
                handleSubmit,
                loading,
+               showAlert,
                store,
                data,
                v$,

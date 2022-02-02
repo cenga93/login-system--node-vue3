@@ -5,11 +5,16 @@ import mongoose from 'mongoose';
 import compression from 'compression';
 import mongoSanitize from 'express-mongo-sanitize';
 import cors from 'cors';
+// import helmet from 'helmet';
 import router from './routes';
 import passport from 'passport';
 import path from 'path';
+import { jwtStrategy } from './config/passport';
 
 const app: Express = express();
+
+/** Setting various HTTP headers */
+// app.use(helmet());
 
 /** Sanitizes user-supplied data to prevent MongoDB Operator Injection. */
 app.use(mongoSanitize());
@@ -26,11 +31,13 @@ app.use(
 );
 
 app.use(passport.initialize());
+passport.use('jwt', jwtStrategy);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
      res.header('Access-Control-Allow-Origin', '*');
-     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS , post, get');
      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With,' + ' Content-Type, Accept');
+
      return next();
 });
 

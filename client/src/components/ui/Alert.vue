@@ -14,7 +14,7 @@
           </svg>
           <div class="ml-3 text-sm font-medium text-red-700 dark:text-red-800">{{ message }}</div>
           <button
-               @click="store.commit('hideAlert')"
+               @click="hideAlert"
                type="button"
                class="ml-auto -mx-1.5 -my-1.5 bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-red-200 dark:text-red-600 dark:hover:bg-red-300"
                data-collapse-toggle="alert-2"
@@ -34,25 +34,21 @@
 
 <script>
 import { useStore } from 'vuex';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onUnmounted } from 'vue';
 
 export default {
      name: 'Alert',
      setup() {
           const store = useStore();
-          const message = ref('');
+          const message = computed(() => store.state.alert.message);
+          const hideAlert = () => store.dispatch('hideAlert');
 
-          onMounted(() => {
-               message.value = store.state.alert.message;
-          });
-
-          onUnmounted(() => {
-               store.commit('hideAlert');
-          });
+          onUnmounted(() => store.dispatch('hideAlert'));
 
           return {
                store,
                message,
+               hideAlert,
           };
      },
 };

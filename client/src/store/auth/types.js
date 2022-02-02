@@ -1,0 +1,8 @@
+export default {
+     SET_USER: 'SET_USER',
+     REMOVE_USER: 'REMOVE_USER',
+     SET_TOKEN: 'SET_TOKEN',
+     REMOVE_TOKEN: 'REMOVE_TOKEN',
+     SHOW_ALERT: 'SHOW_ALERT',
+     HIDE_ALERT: 'HIDE_ALERT',
+};

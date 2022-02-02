@@ -85,9 +85,7 @@ import useVuelidate from '@vuelidate/core';
 import registerValidation from '@/validations/registerValidation';
 import InputErrors from '@/components/default/forms/InputErrors';
 import { useStore } from 'vuex';
-import axios from 'axios';
 import Alert from '@/components/ui/Alert';
-import { useRouter } from 'vue-router';
 
 export default {
      name: 'Register',
@@ -101,7 +99,6 @@ export default {
      setup() {
           const store = useStore();
           const loading = ref(false);
-          const router = useRouter();
 
           const data = ref({
                firstname: '',
@@ -117,17 +114,9 @@ export default {
 
                if (formIsValid) {
                     loading.value = true;
-                    store.commit('hideAlert');
 
-                    try {
-                         const response = await axios.post('/api/user', data.value);
-
-                         if (response.status === 200) {
-                              await router.push({ name: 'Home' });
-                         }
-                    } catch (err) {
-                         store.commit('showAlert', err.response.data.message);
-                    }
+                    await store.dispatch('hideAlert');
+                    await store.dispatch('register', data.value);
 
                     loading.value = false;
                }

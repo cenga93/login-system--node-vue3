@@ -8,6 +8,7 @@
                               <p>Verify your email address</p>
                          </div>
                          <form class="mt-8" @submit.prevent="handleSubmit" novalidate>
+                              <Alert v-if="showAlert" />
                               <div class="mx-auto max-w-lg text-center">
                                    <input-errors v-for="error of v$.num1.$errors" :error="error" :key="error.$uid" />
                                    <input-errors v-for="error of v$.num2.$errors" :error="error" :key="error.$uid" />
@@ -64,6 +65,7 @@
                </div>
           </div>
      </div>
+     <Loader v-if="loading" />
 </template>
 
 <script>
@@ -73,6 +75,13 @@ import { ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import verifyValidation from '@/validations/verifyValidation';
 import InputErrors from '@/components/default/forms/InputErrors';
+import { useStore } from 'vuex';
+import Alert from '@/components/ui/Alert';
+import Loader from '@/components/default/layout/Loader';
+import { computed } from 'vue';
+import axios from 'axios';
+import { useRoute } from 'vue-router';
+import router from '@/router';
 
 export default {
      name: 'Verify',
@@ -80,8 +89,15 @@ export default {
           InputWrapper,
           InputField,
           InputErrors,
+          Alert,
+          Loader,
      },
      setup() {
+          const route = useRoute();
+          const store = useStore();
+          const id = route.params.id;
+          const showAlert = computed(() => store.state.alert.show);
+          const loading = ref(false);
           const data = ref({
                num1: '',
                num2: '',
@@ -92,22 +108,37 @@ export default {
           const v$ = useVuelidate(verifyValidation, data);
 
           const handleSubmit = async () => {
-               const result = await v$.value.$validate();
+               const formIsValid = await v$.value.$validate();
 
-               if (!result) {
-                    console.log('ima errore');
-               } else {
-                    console.log('nema error-e..moze da se submit...');
+               if (formIsValid) {
+                    const { num1, num2, num3, num4 } = data.value;
+                    const code = `${num1}${num2}${num3}${num4}`;
+
+                    loading.value = true;
+
+                    await store.dispatch('hideAlert');
+
+                    try {
+                         const response = await axios.post(`/auth/verification/${id}`, { code });
+
+                         if (response.status === 200) {
+                              await router.push({ name: 'Login' });
+                         }
+                    } catch (err) {
+                         await store.dispatch('showAlert', err.response.data.message);
+                    }
+
+                    loading.value = false;
                }
           };
 
           return {
                handleSubmit,
+               loading,
+               showAlert,
                data,
                v$,
           };
      },
 };
 </script>
-
-<style scoped></style>
