@@ -7,6 +7,7 @@ import tokenRepository from '../repositories/token';
 import { IToken, IUser } from '../interfaces';
 import userRepository from '../repositories/user';
 import ApiError from '../utils/ApiError';
+import { sendResetPasswordMail } from '../services/mailer';
 
 export const login = catchAsync(async (req: Request, res: Response): Promise<void> => {
      const { email, password } = req.body;
@@ -43,4 +44,20 @@ export const verify = catchAsync(async (req: Request, res: Response): Promise<vo
      await verifiedUser.save();
 
      res.status(httpStatus.OK).json(verifiedUser);
+});
+
+export const forgotPassword = catchAsync(async (req: Request, res: Response) => {
+     const { email } = req.body;
+
+     console.log(email);
+
+     const resetPasswordToken = await tokenRepository.generateResetPasswordToken(email);
+
+     const url: URL = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+
+
+
+     await sendResetPasswordMail(email, url, resetPasswordToken);
+
+     res.status(httpStatus.NO_CONTENT).json();
 });

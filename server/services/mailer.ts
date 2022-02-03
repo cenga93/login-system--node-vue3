@@ -44,3 +44,31 @@ export const sendWelcomeMail = async (user: IUserModel, url: URL): Promise<void>
          </html>`,
      });
 };
+
+export const sendResetPasswordMail = async (email: string, url: URL, resetPasswordToken: string): Promise<void> => {
+     const { origin } = url;
+
+     await transporter.sendMail({
+          from: '"FAQ" <cenga93@gmail.com>',
+          to: email,
+          subject: 'FAQ :: Reset password',
+          html: `
+         <html lang='en'>
+              <head>
+                   <style>
+                         .verify-code{
+                              font-weight: bold;
+                              color: #ff9900;
+                              font-size: 18px;
+                         }
+                   </style>
+                   <title>Account verification</title>
+              </head>
+              <body>
+                   <h2>Dear user</h2>
+                   <p>To reset your password, click on this link:   <a href="${origin}/reset-password?token=${resetPasswordToken}">Link</a></p>
+                   <p>If you did not request any password resets, then ignore this email.</p>
+              </body>
+         </html>`,
+     });
+};

@@ -6,6 +6,7 @@ const login = async ({ commit, dispatch }, payload) => {
      try {
           const response = await axios.post('/auth/login', payload);
           dispatch('setUser', response.data.access.token);
+          await router.push({ name: 'Home' });
      } catch (err) {
           commit(MT.SHOW_ALERT, err.response.data.message);
      }
@@ -31,7 +32,6 @@ const setUser = async ({ commit }, token) => {
                const user = await axios.get('/auth/me');
 
                commit(MT.SET_USER, user);
-               await router.push({ name: 'Home' });
           } catch (e) {
                commit(MT.SET_TOKEN, null);
                commit(MT.SET_USER, null);

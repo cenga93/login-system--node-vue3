@@ -1,10 +1,14 @@
-import { IUser } from '../interfaces';
+import { IFilter, IToken, IUser } from '../interfaces';
 import setup from '../config/setup';
+import config from '../config/setup';
 import jwt from 'jsonwebtoken';
 import { TokenTypes } from '../config/enums';
-import { addMinutes, getUnixTime, addDays } from 'date-fns';
+import { addDays, addMinutes, getUnixTime } from 'date-fns';
 import Token from '../models/token';
-import { IToken } from '../interfaces';
+import User, { IUserModel } from '../models/user';
+import Default from '../default';
+import ApiError from '../utils/ApiError';
+import httpStatus from 'http-status';
 
 /**
  * Generate token with jwt
@@ -63,4 +67,18 @@ const generateAuthTokens = async (user: IUser): Promise<IToken> => {
      };
 };
 
-export default { generateAuthTokens };
+export const generateResetPasswordToken = async (email: IFilter) => {
+     const user: IUserModel = await Default.getOne(User, { email: email });
+
+     if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+
+     const expires = addMinutes(new Date(), config.jwt.resetPasswordExpirationMinutes);
+     // await saveToken(resetPasswordToken, user.id, expires, TokenTypes.RESET_PASSWORD);
+
+     return generateToken(user.id, expires, TokenTypes.RESET_PASSWORD);
+};
+
+export default {
+     generateAuthTokens,
+     generateResetPasswordToken,
+};

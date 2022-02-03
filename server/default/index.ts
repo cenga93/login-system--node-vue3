@@ -9,7 +9,7 @@ const getAll = async (Collection: Model<any>, notAllowedFields?: ISelect): Promi
      return Collection.find().select(notAllowedFields);
 };
 
-const getOne = async (Collection: any, filter: IFilter, notAllowedFields?: ISelect): Promise<any> => {
+const getOne = async (Collection: any, filter: { email: IFilter }, notAllowedFields?: ISelect): Promise<any> => {
      return await Collection.findOne(filter).select(notAllowedFields);
 };
 

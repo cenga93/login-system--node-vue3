@@ -4,6 +4,12 @@ import authMiddleware from './middleware/auth';
 
 const routes = [
      {
+          path: '/',
+          name: 'Home',
+          component: Home,
+          beforeEnter: authMiddleware,
+     },
+     {
           path: '/login',
           name: 'Login',
           component: () => import('../views/auth/Login.vue'),
@@ -16,27 +22,22 @@ const routes = [
      {
           path: '/forgot-password',
           name: 'ForgotPassword',
-          component: () => import('../views/auth/ForgotPassword'),
+          component: () => import('../views/auth/ForgotPassword.vue'),
      },
      {
           path: '/verification/:id',
           name: 'Verify',
-          component: () => import('../views/auth/Verify'),
+          component: () => import('../views/auth/Verify.vue'),
      },
+
      {
-          path: '/:pathMatch(.*)*',
-          component: () => import('../views/NotFound'),
-     },
-     {
-          path: '/',
-          name: 'Home',
-          component: Home,
-          beforeEnter: authMiddleware,
+          path: '/:catchAll(.*)',
+          component: () => import('../views/NotFound.vue'),
      },
 ];
 
 const router = createRouter({
-     history: createWebHistory(),
+     history: createWebHistory(process.env.BASE_URL),
      routes,
 });
 

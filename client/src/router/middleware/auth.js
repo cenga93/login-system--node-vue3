@@ -1,9 +1,11 @@
 import store from '@/store';
 import router from '@/router';
 
-export default async () => {
+export default async (to, from, next) => {
      if (!store.getters.authenticated) {
           await router.push('login').catch(() => {});
+     } else {
+          next();
      }
 
      // if (!store.getters.authenticated) {

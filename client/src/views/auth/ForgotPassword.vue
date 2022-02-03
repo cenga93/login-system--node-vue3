@@ -50,6 +50,8 @@ import InputField from '@/components/default/forms/InputField';
 import useVuelidate from '@vuelidate/core';
 import forgotPasswordValidation from '@/validations/forgotPasswordValidation';
 import InputErrors from '@/components/default/forms/InputErrors';
+import axios from 'axios';
+import router from '@/router';
 
 export default {
      name: 'ForgotPassword',
@@ -66,12 +68,17 @@ export default {
           const v$ = useVuelidate(forgotPasswordValidation, data);
 
           const handleSubmit = async () => {
-               const result = await v$.value.$validate();
+               const formIsValid = await v$.value.$validate();
 
-               if (!result) {
-                    console.log('ima errore');
-               } else {
-                    console.log('nema error-e..moze da se submit...');
+               if (formIsValid) {
+                    try {
+                         await axios.post('/auth/reset-password/', { email: data.value.email }).then(() => {
+                              router.push({ name: 'Login' });
+                         });
+                    } catch (err) {
+                         console.log(err.response);
+                         // await store.dispatch('showAlert', err.response.data.message);
+                    }
                }
           };
 
