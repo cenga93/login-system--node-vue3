@@ -13,7 +13,7 @@
                                         <input-field
                                              class="w-full"
                                              type="email"
-                                             v-model="data.email"
+                                             v-model="email"
                                              @blur="v$.email.$touch()"
                                              placeholder="Your email address"
                                         />
@@ -52,6 +52,7 @@ import forgotPasswordValidation from '@/validations/forgotPasswordValidation';
 import InputErrors from '@/components/default/forms/InputErrors';
 import axios from 'axios';
 import router from '@/router';
+import { useStore } from 'vuex';
 
 export default {
      name: 'ForgotPassword',
@@ -61,30 +62,27 @@ export default {
           InputErrors,
      },
      setup() {
-          const data = ref({
-               email: '',
-          });
-
-          const v$ = useVuelidate(forgotPasswordValidation, data);
+          const store = useStore();
+          const email = ref('');
+          const v$ = useVuelidate(forgotPasswordValidation, email);
 
           const handleSubmit = async () => {
                const formIsValid = await v$.value.$validate();
 
                if (formIsValid) {
                     try {
-                         await axios.post('/auth/reset-password/', { email: data.value.email }).then(() => {
+                         await axios.post('/auth/reset-password/', email).then(() => {
                               router.push({ name: 'Login' });
                          });
                     } catch (err) {
-                         console.log(err.response);
-                         // await store.dispatch('showAlert', err.response.data.message);
+                         await store.dispatch('showAlert', err.response.data.message);
                     }
                }
           };
 
           return {
                handleSubmit,
-               data,
+               email,
                v$,
           };
      },

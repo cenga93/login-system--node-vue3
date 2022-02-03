@@ -203,7 +203,6 @@
                </span>
           </div>
      </section>
-
      <div class="container max-w-full mx-auto py-24 px-4">
           <div class="max-w-sm mx-auto">
                <div class="flex flex-wrap">
@@ -225,7 +224,6 @@
                                         />
                                         <input-errors v-for="error of v$.email.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
-
                                    <input-wrapper label="Password">
                                         <input-field
                                              class="w-full"
@@ -236,7 +234,6 @@
                                         />
                                         <input-errors v-for="error of v$.password.$errors" :error="error" :key="error.$uid" />
                                    </input-wrapper>
-
                                    <button
                                         class="mt-3 text-lg font-semibold bg-indigo-700 w-full text-white rounded-lg px-6 py-2 block shadow-xl hover:text-white hover:bg-indigo-900"
                                    >

@@ -5,7 +5,7 @@ import router from '@/router';
 const login = async ({ commit, dispatch }, payload) => {
      try {
           const response = await axios.post('/auth/login', payload);
-          dispatch('setUser', response.data.access.token);
+          await dispatch('setUser', response.data.access.token);
           await router.push({ name: 'Home' });
      } catch (err) {
           commit(MT.SHOW_ALERT, err.response.data.message);

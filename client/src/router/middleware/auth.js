@@ -1,38 +1,28 @@
 import store from '@/store';
 import router from '@/router';
 
-export default async (to, from, next) => {
-     if (!store.getters.authenticated) {
-          await router.push('login').catch(() => {});
+export default ({ meta, path, params }, from, next) => {
+     if (meta.auth) {
+          if (!store.getters.authenticated) {
+               router.push({ path: '/login' }).catch(() => {});
+          } else {
+               next();
+          }
      } else {
-          next();
+          if (store.getters.authenticated) {
+               router.push({ name: 'Home' });
+          } else {
+               const verificationPage = path.includes('verification');
+
+               if (verificationPage) {
+                    if (params.id.length === 2) {
+                         next();
+                    } else {
+                         router.push({ name: 'Login' });
+                    }
+               } else {
+                    next();
+               }
+          }
      }
-
-     // if (!store.getters.authenticated) {
-     //      return next({ name: 'Login' });
-     // } else {
-     //      return next();
-     // }
-     // if(store.getters.getUser)
-
-     // const token = localStorage.getItem('auth');
-     //
-     // console.log(token);
-
-     // if (token) {
-     //      const response = await axios.get('/api/auth/me');
-     //
-     //      if (response) {
-     //           return next();
-     //      } else {
-     //           localStorage.clear();
-     //           router.push('/login').catch(() => {});
-     //      }
-     // }
-     //
-     // if (authenticated) {
-     //      router.push('/login').catch(() => {});
-     // } else {
-     //      return next();
-     // }
 };

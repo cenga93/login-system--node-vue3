@@ -51,6 +51,9 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response) => 
 
      console.log(email);
 
+     return;
+
+
      const resetPasswordToken = await tokenRepository.generateResetPasswordToken(email);
 
      const url: URL = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
