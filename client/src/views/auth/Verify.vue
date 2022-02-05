@@ -85,13 +85,7 @@ import router from '@/router';
 
 export default {
      name: 'Verify',
-     components: {
-          InputWrapper,
-          InputField,
-          InputErrors,
-          Alert,
-          Loader,
-     },
+     components: { InputWrapper, InputField, InputErrors, Alert, Loader },
      setup() {
           const route = useRoute();
           const store = useStore();

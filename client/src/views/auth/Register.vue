@@ -89,13 +89,7 @@ import Alert from '@/components/ui/Alert';
 
 export default {
      name: 'Register',
-     components: {
-          InputErrors,
-          InputWrapper,
-          InputField,
-          Loader,
-          Alert,
-     },
+     components: { InputErrors, InputWrapper, InputField, Loader, Alert },
      setup() {
           const store = useStore();
           const loading = ref(false);

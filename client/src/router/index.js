@@ -45,6 +45,14 @@ const routes = [
           },
      },
      {
+          path: '/enter-password',
+          name: 'EnterPassword',
+          component: () => import('../views/auth/EnterPassword'),
+          meta: {
+               auth: false,
+          },
+     },
+     {
           // OVDE SAM...
           path: '/:pathMatch(.*)*',
           component: () => import('../views/NotFound.vue'),

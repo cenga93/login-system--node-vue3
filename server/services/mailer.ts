@@ -66,7 +66,7 @@ export const sendResetPasswordMail = async (email: string, url: URL, resetPasswo
               </head>
               <body>
                    <h2>Dear user</h2>
-                   <p>To reset your password, click on this link:   <a href="${origin}/reset-password?token=${resetPasswordToken}">Link</a></p>
+                   <p>To reset your password, click on this link:   <a href="http://localhost:8080/enter-password?token=${resetPasswordToken}">Link</a></p>
                    <p>If you did not request any password resets, then ignore this email.</p>
               </body>
          </html>`,

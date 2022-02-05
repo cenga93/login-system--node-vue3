@@ -18,6 +18,7 @@ export interface ISelect {
 
 export interface IFilter {
      email?: string;
+     id?: any;
 }
 
 export interface IToken {

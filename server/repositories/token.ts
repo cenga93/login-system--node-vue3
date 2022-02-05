@@ -1,4 +1,4 @@
-import { IFilter, IToken, IUser } from '../interfaces';
+import { IToken, IUser } from '../interfaces';
 import setup from '../config/setup';
 import config from '../config/setup';
 import jwt from 'jsonwebtoken';
@@ -36,8 +36,8 @@ export const generateToken = (userId: string, expires: number | Date, type: any)
  * @param type - This should be the token expiration date
  * @param blacklisted - This should be the boolean value
  */
-const saveToken = async (token: string, userId: string, expires: Date, type: string, blacklisted: boolean = false): Promise<void> => {
-     await Token.create({ token, user: userId, expires, type, blacklisted });
+const saveToken = async (token: string, userId: string, expires: Date, type: string, blacklisted: boolean = false): Promise<any> => {
+     return await Token.create({ token, user: userId, expires, type, blacklisted });
 };
 
 /**
@@ -67,18 +67,26 @@ const generateAuthTokens = async (user: IUser): Promise<IToken> => {
      };
 };
 
-export const generateResetPasswordToken = async (email: IFilter) => {
-     const user: IUserModel = await Default.getOne(User, { email: email });
+const generateResetPasswordToken = async (email: string) => {
+     const user: IUserModel = await Default.getOne(User, { email });
 
      if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
 
      const expires = addMinutes(new Date(), config.jwt.resetPasswordExpirationMinutes);
-     // await saveToken(resetPasswordToken, user.id, expires, TokenTypes.RESET_PASSWORD);
 
-     return generateToken(user.id, expires, TokenTypes.RESET_PASSWORD);
+     const token = generateToken(user.id, expires, TokenTypes.RESET_PASSWORD);
+
+     await saveToken(token, user.id, expires, TokenTypes.RESET_PASSWORD);
+
+     return token;
+};
+
+const verifyToken = async (token: any, type: TokenTypes) => {
+     return jwt.verify(token, 'secret');
 };
 
 export default {
+     verifyToken,
      generateAuthTokens,
      generateResetPasswordToken,
 };
