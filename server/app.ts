@@ -43,6 +43,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
+app.get('*', (req: Request, res: Response) => {
+     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 /** Parse application/x-www-form-urlencoded */
 app.use(express.urlencoded({ extended: true }));
 
