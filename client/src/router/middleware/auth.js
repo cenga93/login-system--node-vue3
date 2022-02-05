@@ -15,7 +15,7 @@ export default ({ meta, path, params }, from, next) => {
                const verificationPage = path.includes('verification');
 
                if (verificationPage) {
-                    if (params.id && params.id.length === 2) {
+                    if (params.id && params.id.length === 24) {
                          return next();
                     } else {
                          router.push({ name: 'Login' });

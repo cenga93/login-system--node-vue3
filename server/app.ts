@@ -41,12 +41,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
      return next();
 });
 
-app.use(express.static(path.join(__dirname, 'dist')));
-
-app.get('*', (req: Request, res: Response) => {
-     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
 /** Parse application/x-www-form-urlencoded */
 app.use(express.urlencoded({ extended: true }));
 
@@ -57,5 +51,17 @@ mongoose.Promise = global.Promise;
 
 /** Router */
 app.use('/api', router());
+
+if (process.env.NODE_ENV === 'production') {
+     app.use(express.static(path.join(__dirname, 'dist')));
+
+     app.get('*', (req: Request, res: Response) => {
+          res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+     });
+}
+
+app.all('/api/*', function (req: Request, res: Response, next: NextFunction) {
+     next();
+});
 
 export default app;
