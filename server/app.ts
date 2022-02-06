@@ -5,16 +5,12 @@ import mongoose from 'mongoose';
 import compression from 'compression';
 import mongoSanitize from 'express-mongo-sanitize';
 import cors from 'cors';
-// import helmet from 'helmet';
 import router from './routes';
 import passport from 'passport';
 import path from 'path';
 import { jwtStrategy } from './config/passport';
 
 const app: Express = express();
-
-/** Setting various HTTP headers */
-// app.use(helmet());
 
 /** Sanitizes user-supplied data to prevent MongoDB Operator Injection. */
 app.use(mongoSanitize());
