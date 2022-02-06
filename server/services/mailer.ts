@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { IUserModel } from '../models/user';
+import { IUser } from '../interfaces';
 
 const transporter = nodemailer.createTransport({
      service: 'gmail',
@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
  * @param user - This should be the object of new user.
  * @param url -  This should be the instance of URL.
  */
-export const sendWelcomeMail = async (user: IUserModel, url: URL): Promise<void> => {
+export const sendWelcomeMail = async (user: IUser, url: URL): Promise<void> => {
      const { firstname, lastname, code, email, _id } = user;
      const { origin } = url;
 

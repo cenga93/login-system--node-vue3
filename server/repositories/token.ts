@@ -41,10 +41,10 @@ const saveToken = async (token: string, userId: string, expires: Date, type: str
 };
 
 /**
- * This function returns the access token and  refresh token
+ * This function returns the access token and refresh token
  *
  * @param user - This should be the IUser
- * @return IToken
+ * @return IToken - This should be the token object which contain token string and token expired date
  */
 const generateAuthTokens = async (user: IUser): Promise<IToken> => {
      const { _id } = user;
@@ -67,26 +67,24 @@ const generateAuthTokens = async (user: IUser): Promise<IToken> => {
      };
 };
 
-const generateResetPasswordToken = async (email: string) => {
+/**
+ * This function returns the refresh token for reset password
+ *
+ * @param email -This should be the user email
+ */
+const generateResetPasswordToken = async (email: string): Promise<string> => {
      const user: IUserModel = await Default.getOne(User, { email });
-
      if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
 
-     const expires = addMinutes(new Date(), config.jwt.resetPasswordExpirationMinutes);
-
-     const token = generateToken(user.id, expires, TokenTypes.RESET_PASSWORD);
+     const expires: Date = addMinutes(new Date(), config.jwt.resetPasswordExpirationMinutes);
+     const token: string = generateToken(user.id, expires, TokenTypes.RESET_PASSWORD);
 
      await saveToken(token, user.id, expires, TokenTypes.RESET_PASSWORD);
 
      return token;
 };
 
-const verifyToken = async (token: any, type: TokenTypes) => {
-     return jwt.verify(token, 'secret');
-};
-
 export default {
-     verifyToken,
      generateAuthTokens,
      generateResetPasswordToken,
 };

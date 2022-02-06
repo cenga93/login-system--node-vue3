@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { IUser } from '../interfaces';
 
 export interface IUserModel extends IUser, Document {
-     comparePassword(userPassword: string): Promise<boolean>;
+     comparePassword(password: string): Promise<boolean>;
 }
 
 const UserSchema = new Schema(

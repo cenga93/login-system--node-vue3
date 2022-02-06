@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongoose';
+
 export interface IUser {
      _id?: any;
      firstname: string;
@@ -17,8 +19,10 @@ export interface ISelect {
 }
 
 export interface IFilter {
+     _id?: ObjectId;
      email?: string;
      id?: any;
+     token?: string;
 }
 
 export interface IToken {
@@ -30,4 +34,12 @@ export interface IToken {
      //      token?: string;
      //      expires?: Date;
      // };
+}
+
+export interface ITokenCollection {
+     token: string;
+     user: ObjectId;
+     type: 'refresh' | 'resetPassword';
+     expires: Date;
+     blackListed: boolean;
 }

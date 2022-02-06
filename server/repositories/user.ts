@@ -2,10 +2,16 @@ import { Request } from 'express';
 import httpStatus from 'http-status';
 import ApiError from '../utils/ApiError';
 import Default from '../default';
-import User, { IUserModel } from '../models/user';
+import User from '../models/user';
 import { sendWelcomeMail } from '../services/mailer';
+import { IUser } from '../interfaces';
 
-const createUser = async (req: Request): Promise<any> => {
+/**
+ * Create new user and send welcome email
+ *
+ * @param req - This should be the Request
+ */
+const createUser = async (req: Request): Promise<IUser> => {
      const { body } = req;
 
      /** Check if user exists in database */
@@ -14,7 +20,7 @@ const createUser = async (req: Request): Promise<any> => {
 
      body.code = Math.round(Math.random() * (9999 - 1000) + 1000);
 
-     const user: IUserModel = await new User(body).save();
+     const user: IUser = await new User(body).save();
 
      const url: URL = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
 

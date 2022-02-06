@@ -2,40 +2,41 @@ import httpStatus from 'http-status';
 import Default from '../default';
 import User, { IUserModel } from '../models/user';
 import ApiError from '../utils/ApiError';
-import { IFilter, ISelect, IUser } from '../interfaces';
-import tokenRepository from './token';
+import { ITokenCollection, IUser } from '../interfaces';
 import Token from '../models/token';
 import { TokenTypes } from '../config/enums';
-import mongoose from 'mongoose';
-import { ObjectId } from 'mongodb';
 
-const loginWithEmailAndPassword = async (email: string, userPassword: string): Promise<IUserModel> => {
-     const filter: IFilter = { email };
-     const notAllowedFields: ISelect = { code: false };
-     const user: IUserModel = await Default.getOne(User, filter, notAllowedFields);
+/**
+ * Login with email and password
+ *
+ * @param body -This should be the request body.
+ */
+const loginWithEmailAndPassword = async (body: { email: string; password: string }): Promise<IUser> => {
+     const user: IUserModel = await Default.getOne(User, { email: body.email }, { code: false });
 
-     if (!user || !(await user.comparePassword(userPassword))) {
-          throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
-     }
+     if (!user || !(await user.comparePassword(body.password))) throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
 
      return user;
 };
 
+/**
+ * Create reset token and save in token collection
+ *
+ * @param token - This should be the token from request query
+ * @param password - This should be the password from request body
+ */
 const resetPassword = async (token: any, password: string) => {
-     try {
-          const resetTokenObject = await Default.getOne(Token, { token });
-          if (!resetTokenObject) throw new ApiError(httpStatus.NOT_FOUND, "Token isn't valid");
+     const resetTokenCollection: ITokenCollection = await Default.getOne(Token, { token });
+     if (!resetTokenCollection) throw new ApiError(httpStatus.NOT_FOUND, "Token isn't valid");
 
-          const user = await Default.getOne(User, { _id: resetTokenObject.user });
-          if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+     const user: IUserModel = await Default.getOne(User, { _id: resetTokenCollection.user });
+     if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
 
-          Object.assign(user, { password });
-          await user.save();
+     Object.assign(user, { password });
 
-          await Token.deleteMany({ $and: [{ user: resetTokenObject.user }, { type: 'resetPassword' }] });
-     } catch (error) {
-          throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
-     }
+     await user.save();
+
+     await Token.deleteMany({ $and: [{ user: resetTokenCollection.user }, { type: TokenTypes.RESET_PASSWORD }] });
 };
 
 export default {

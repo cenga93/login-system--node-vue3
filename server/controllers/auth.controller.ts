@@ -8,13 +8,9 @@ import { IToken, IUser } from '../interfaces';
 import userRepository from '../repositories/user';
 import ApiError from '../utils/ApiError';
 import { sendResetPasswordMail } from '../services/mailer';
-import { ParsedUrlQuery } from 'querystring';
-import * as QueryString from 'querystring';
-import { URLSearchParams } from 'url';
 
 export const login = catchAsync(async (req: Request, res: Response): Promise<void> => {
-     const { email, password } = req.body;
-     const user: IUserModel | null = await authRepository.loginWithEmailAndPassword(email, password);
+     const user: IUser | null = await authRepository.loginWithEmailAndPassword(req.body);
 
      if (!user.verified) throw new ApiError(httpStatus.UNAUTHORIZED, 'Email not verified. Check your email');
 
@@ -52,7 +48,7 @@ export const verify = catchAsync(async (req: Request, res: Response): Promise<vo
 export const forgotPassword = catchAsync(async (req: Request, res: Response) => {
      const { email } = req.body;
 
-     const resetPasswordToken = await tokenRepository.generateResetPasswordToken(email);
+     const resetPasswordToken: string = await tokenRepository.generateResetPasswordToken(email);
 
      const url: URL = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
 

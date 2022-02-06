@@ -4,7 +4,7 @@ import { TokenTypes } from './enums';
 import { IUser } from '../interfaces';
 const { Strategy: JwtStrategy, ExtractJwt } = passportJwt;
 
-const jwtOptions = {
+export const jwtOptions = {
      secretOrKey: 'secret',
      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
