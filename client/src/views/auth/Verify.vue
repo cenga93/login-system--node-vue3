@@ -69,19 +69,14 @@
 </template>
 
 <script>
-import InputWrapper from '@/components/default/forms/InputWrapper';
-import InputField from '@/components/default/forms/InputField';
-import { ref } from 'vue';
-import useVuelidate from '@vuelidate/core';
-import verifyValidation from '@/validations/verifyValidation';
-import InputErrors from '@/components/default/forms/InputErrors';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import Alert from '@/components/ui/Alert';
-import Loader from '@/components/default/layout/Loader';
-import { computed } from 'vue';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 import router from '@/router';
+import useVuelidate from '@vuelidate/core';
+import verifyValidation from '@/validations/verifyValidation';
+import { InputWrapper, InputField, InputErrors, Loader, Alert } from '@/components';
 
 export default {
      name: 'Verify',

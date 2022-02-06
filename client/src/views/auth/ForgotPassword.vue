@@ -46,18 +46,13 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import InputWrapper from '@/components/default/forms/InputWrapper';
-import InputField from '@/components/default/forms/InputField';
-import useVuelidate from '@vuelidate/core';
-import forgotPasswordValidation from '@/validations/forgotPasswordValidation';
-import InputErrors from '@/components/default/forms/InputErrors';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 import axios from 'axios';
 import router from '@/router';
-import { useStore } from 'vuex';
-import { computed } from 'vue';
-import Loader from '@/components/default/layout/Loader';
-import Alert from '@/components/ui/Alert';
+import useVuelidate from '@vuelidate/core';
+import forgotPasswordValidation from '@/validations/forgotPasswordValidation';
+import { InputWrapper, InputField, InputErrors, Loader, Alert } from '@/components';
 
 export default {
      name: 'ForgotPassword',
