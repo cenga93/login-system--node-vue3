@@ -267,13 +267,13 @@
 </template>
 <script>
 import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 import InputWrapper from '@/components/default/forms/InputWrapper';
 import InputField from '@/components/default/forms/InputField';
 import InputErrors from '@/components/default/forms/InputErrors';
 import useVuelidate from '@vuelidate/core';
 import loginValidation from '@/validations/loginValidation';
 import Loader from '@/components/default/layout/Loader';
-import { useStore } from 'vuex';
 import Alert from '@/components/ui/Alert';
 
 export default {

@@ -78,14 +78,10 @@
 
 <script>
 import { ref } from 'vue';
-import InputWrapper from '@/components/default/forms/InputWrapper';
-import InputField from '@/components/default/forms/InputField';
-import Loader from '@/components/default/layout/Loader';
+import { useStore } from 'vuex';
 import useVuelidate from '@vuelidate/core';
 import registerValidation from '@/validations/registerValidation';
-import InputErrors from '@/components/default/forms/InputErrors';
-import { useStore } from 'vuex';
-import Alert from '@/components/ui/Alert';
+import { InputWrapper, InputField, InputErrors, Loader, Alert } from '@/components';
 
 export default {
      name: 'Register',
